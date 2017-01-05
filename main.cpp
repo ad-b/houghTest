@@ -19,7 +19,10 @@ void AddAccumulator(Point center, int radius)
 
 		if (!(point.x == prev.x) && !(point.y == prev.y))
 		{
-			hough.at<uchar>(point) = (int)(hough.at<uchar>(point)) - 20;
+			if (!(hough.at<uchar>(point) == 0))
+			{
+				hough.at<uchar>(point) = (int)(hough.at<uchar>(point)) - 5;
+			}
 			prev.x = point.x;
 			prev.y = point.y;
 		}	
@@ -53,6 +56,9 @@ int main(int argc, char** argv)
 	}
 
 	imshow("hough", hough);
+
+	//equalizeHist(hough, hough);
+	//normalize(hough, hough, 0, 255);
 
 	waitKey(0);
 
