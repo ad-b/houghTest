@@ -19,7 +19,7 @@ void AddAccumulator(Point center, int radius)
 
 		if (!(point.x == prev.x) && !(point.y == prev.y))
 		{
-			hough.at<uchar>(point) = (int)(hough.at<uchar>(point)) + 10;
+			hough.at<uchar>(point) = (int)(hough.at<uchar>(point)) - 20;
 			prev.x = point.x;
 			prev.y = point.y;
 		}	
@@ -28,7 +28,7 @@ void AddAccumulator(Point center, int radius)
 
 int main(int argc, char** argv)
 {
-	string path = "E:\\Cpp\\InzObrazy\\Debug\\test.bmp";
+	string path = "test3.bmp";
 	Mat src = imread(path, 1);
 	imshow("test", src);
 
@@ -37,8 +37,9 @@ int main(int argc, char** argv)
 
 	hough = Mat(gray.rows, gray.cols, gray.type());
 	hough = Mat::zeros(gray.rows, gray.cols, gray.type());
+	hough.setTo(Scalar(255));
 
-	int radius = 20;
+	int radius = 100;
 
 	for (int i = 0; i < gray.cols; i++)
 	{
