@@ -19,9 +19,9 @@ void AddAccumulator(Point center, int radius)
 
 		if (!(point.x == prev.x) && !(point.y == prev.y))
 		{
-			if (!(hough.at<uchar>(point) == 0))
+			if (!(hough.at<uchar>(point) == 1))
 			{
-				hough.at<uchar>(point) = (int)(hough.at<uchar>(point)) - 5;
+				hough.at<uchar>(point) = (int)(hough.at<uchar>(point)) - 2;
 			}
 			prev.x = point.x;
 			prev.y = point.y;
@@ -31,7 +31,7 @@ void AddAccumulator(Point center, int radius)
 
 int main(int argc, char** argv)
 {
-	string path = "test3.bmp";
+	string path = "test5.bmp";
 	Mat src = imread(path, 1);
 	imshow("test", src);
 
@@ -48,17 +48,21 @@ int main(int argc, char** argv)
 	{
 		for (int j = 0; j < gray.rows; j++)
 		{
-			if ((int)gray.at<uchar>(Point(i, j)) == 255)
+			if ((int)gray.at<uchar>(Point(i, j)) == 0)
 			{
 				AddAccumulator(Point(i, j), radius);
 			}		
 		}
 	}
 
-	imshow("hough", hough);
-
 	//equalizeHist(hough, hough);
 	//normalize(hough, hough, 0, 255);
+
+	imshow("hough", hough);
+	vector<int> compression_params;
+	compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+	compression_params.push_back(3);
+	imwrite("output.png", hough, compression_params);
 
 	waitKey(0);
 
